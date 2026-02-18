@@ -30,9 +30,7 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toast.makeText(this, "App started successfully!", Toast.LENGTH_LONG).show();
-
-        // Firebase is auto-initialized by google-services plugin
+        // Firebase initialize - otomatik, manuel gerek yok
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -66,16 +64,16 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
     @Override
     protected void onStart() {
         super.onStart();
-        // Temporarily skip login check
-        loadHabits();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
+            loadHabits();
+        }
     }
 
     private void addHabit() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) {
-            Toast.makeText(this, "No user logged in", Toast.LENGTH_SHORT).show();
-            return;
-        }
         String habitName = "New Habit";
         Map<String, Object> habit = new HashMap<>();
         habit.put("name", habitName);
@@ -83,18 +81,16 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
         habit.put("points", 0);
         habit.put("lastCompleted", null);
 
-        db.collection("users").document(user.getUid()).collection("habits").add(habit)
-                .addOnSuccessListener(documentReference -> loadHabits())
+        db.collection("users").document(mAuth.getCurrentUser().getUid()).collection("habits").add(habit)
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(this, "Habit added!", Toast.LENGTH_SHORT).show();
+                    loadHabits();
+                })
                 .addOnFailureListener(e -> Toast.makeText(this, "Add failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void loadHabits() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) {
-            Toast.makeText(this, "No user logged in", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        db.collection("users").document(user.getUid()).collection("habits")
+        db.collection("users").document(mAuth.getCurrentUser().getUid()).collection("habits")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -115,11 +111,6 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
 
     @Override
     public void onComplete(Habit habit) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) {
-            Toast.makeText(this, "No user logged in", Toast.LENGTH_SHORT).show();
-            return;
-        }
         long newStreak = habit.getStreak() + 1;
         long newPoints = habit.getPoints() + 10;
 
@@ -128,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
         updates.put("points", newPoints);
         updates.put("lastCompleted", System.currentTimeMillis());
 
-        db.collection("users").document(user.getUid()).collection("habits").document(habit.getId())
+        db.collection("users").document(mAuth.getCurrentUser().getUid()).collection("habits").document(habit.getId())
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Habit completed! +10 points", Toast.LENGTH_SHORT).show();
