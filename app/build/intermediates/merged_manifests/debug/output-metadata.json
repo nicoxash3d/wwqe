@@ -4,7 +4,7 @@
     "type": "MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.example.wwqe",
+  "applicationId": "com.wwqe.habits",
   "variantName": "debug",
   "elements": [
     {

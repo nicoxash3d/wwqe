@@ -1,6 +1,10 @@
 [
     {
-        "merged": "com.example.wwqe.app-merged_res-21:/layout_activity_main.xml.flat",
-        "source": "com.example.wwqe.app-main-23:/layout/activity_main.xml"
+        "merged": "com.wwqe.habits.app-merged_res-37:/layout_activity_main.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.wwqe.habits.app-merged_res-37:/layout_activity_login.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/layout/activity_login.xml"
     }
 ]

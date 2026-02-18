@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "451612863477",
+    "project_id": "tracker-e01f3",
+    "storage_bucket": "tracker-e01f3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451612863477:android:8c683462569e92142a8ebc",
+        "android_client_info": {
+          "package_name": "com.wwqe.habits"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6lJc_meHQEBVL26Zudfx0mr5PK3W3Agc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
