@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.wwqe.habits.app-mergeDebugResources-35:/values-ro/values-ro.xml",
+            "outputFile": "com.wwqe.habits.app-mergeDebugResources-36:/values-ro/values-ro.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/transforms-3/e7e125dfa6067d2e8013d53fe65c8608/transformed/play-services-basement-18.9.0/res/values-ro/values.xml",

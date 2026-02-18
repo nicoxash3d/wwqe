@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.wwqe.habits.app-mergeDebugResources-35:/values-el/values-el.xml",
+            "outputFile": "com.wwqe.habits.app-mergeDebugResources-36:/values-el/values-el.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/transforms-3/a5098a5507c0ba9e6bdb5d9fb05ff311/transformed/browser-1.4.0/res/values-el/values-el.xml",

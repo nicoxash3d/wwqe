@@ -2,41 +2,65 @@ package com.wwqe.habits;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHabitCompleteListener {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private LinearLayout habitsLayout;
-    private Button addHabitButton, friendsButton, leaderboardButton;
+    private RecyclerView habitsRecyclerView;
+    private HabitAdapter adapter;
+    private List<Habit> habits;
+    private FloatingActionButton addHabitFab;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Firebase initialize
+        com.google.firebase.FirebaseApp.initializeApp(this);
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        habitsLayout = findViewById(R.id.habitsLayout);
-        addHabitButton = findViewById(R.id.addHabitButton);
-        friendsButton = findViewById(R.id.friendsButton);
-        leaderboardButton = findViewById(R.id.leaderboardButton);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        addHabitButton.setOnClickListener(v -> addHabit());
-        friendsButton.setOnClickListener(v -> startActivity(new Intent(this, FriendsActivity.class)));
-        leaderboardButton.setOnClickListener(v -> startActivity(new Intent(this, LeaderboardActivity.class)));
+        habitsRecyclerView = findViewById(R.id.habitsRecyclerView);
+        addHabitFab = findViewById(R.id.addHabitFab);
 
-        // loadHabits() burada değil, onStart'ta user varsa çağır
+        habits = new ArrayList<>();
+        adapter = new HabitAdapter(habits, this);
+        habitsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        habitsRecyclerView.setAdapter(adapter);
+
+        addHabitFab.setOnClickListener(v -> addHabit());
+
+        // Menu for friends and leaderboard
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.menu_friends) {
+                startActivity(new Intent(this, FriendsActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.menu_leaderboard) {
+                startActivity(new Intent(this, LeaderboardActivity.class));
+                return true;
+            }
+            return false;
+        });
+        toolbar.inflateMenu(R.menu.main_menu);
     }
 
     @Override
@@ -64,46 +88,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadHabits() {
-        habitsLayout.removeAllViews();
         db.collection("users").document(mAuth.getCurrentUser().getUid()).collection("habits")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        task.getResult().forEach(document -> {
-                            String name = document.getString("name");
-                            long streak = document.getLong("streak") != null ? document.getLong("streak") : 0;
-                            long points = document.getLong("points") != null ? document.getLong("points") : 0;
-
-                            LinearLayout habitRow = new LinearLayout(this);
-                            habitRow.setOrientation(LinearLayout.HORIZONTAL);
-
-                            TextView habitView = new TextView(this);
-                            habitView.setText(name + " - Streak: " + streak + " - Points: " + points);
-                            habitView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-
-                            Button completeButton = new Button(this);
-                            completeButton.setText("Complete");
-                            completeButton.setOnClickListener(v -> completeHabit(document.getId(), streak, points));
-
-                            habitRow.addView(habitView);
-                            habitRow.addView(completeButton);
-
-                            habitsLayout.addView(habitRow);
-                        });
+                        habits.clear();
+                        for (com.google.firebase.firestore.DocumentSnapshot doc : task.getResult()) {
+                            String id = doc.getId();
+                            String name = doc.getString("name") != null ? doc.getString("name") : "Unknown";
+                            long streak = doc.getLong("streak") != null ? doc.getLong("streak") : 0;
+                            long points = doc.getLong("points") != null ? doc.getLong("points") : 0;
+                            habits.add(new Habit(id, name, streak, points));
+                        }
+                        adapter.updateHabits(habits);
                     }
                 });
     }
 
-    private void completeHabit(String habitId, long currentStreak, long currentPoints) {
-        long newStreak = currentStreak + 1;
-        long newPoints = currentPoints + 10; // 10 puan per completion
+    @Override
+    public void onComplete(Habit habit) {
+        long newStreak = habit.getStreak() + 1;
+        long newPoints = habit.getPoints() + 10;
 
         Map<String, Object> updates = new HashMap<>();
         updates.put("streak", newStreak);
         updates.put("points", newPoints);
         updates.put("lastCompleted", System.currentTimeMillis());
 
-        db.collection("users").document(mAuth.getCurrentUser().getUid()).collection("habits").document(habitId)
+        db.collection("users").document(mAuth.getCurrentUser().getUid()).collection("habits").document(habit.getId())
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Habit completed! +10 points", Toast.LENGTH_SHORT).show();
