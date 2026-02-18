@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         friendsButton.setOnClickListener(v -> startActivity(new Intent(this, FriendsActivity.class)));
         leaderboardButton.setOnClickListener(v -> startActivity(new Intent(this, LeaderboardActivity.class)));
 
-        loadHabits();
+        // loadHabits() burada değil, onStart'ta user varsa çağır
     }
 
     @Override
@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
+        } else {
+            loadHabits();
         }
     }
 
