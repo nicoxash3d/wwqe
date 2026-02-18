@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
         setContentView(R.layout.activity_main);
 
         try {
+            FirebaseApp.initializeApp(this);
             mAuth = FirebaseAuth.getInstance();
             db = FirebaseFirestore.getInstance();
         } catch (Exception e) {
