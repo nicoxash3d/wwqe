@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.wwqe.habits.app-merged_res-38:/menu_main_menu.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/menu/main_menu.xml"
+    },
+    {
+        "merged": "com.wwqe.habits.app-merged_res-38:/layout_activity_main.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.wwqe.habits.app-merged_res-38:/layout_activity_leaderboard.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/layout/activity_leaderboard.xml"
+    },
+    {
+        "merged": "com.wwqe.habits.app-merged_res-38:/layout_item_habit.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/layout/item_habit.xml"
+    },
+    {
+        "merged": "com.wwqe.habits.app-merged_res-38:/layout_activity_login.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.wwqe.habits.app-merged_res-38:/layout_activity_friends.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/layout/activity_friends.xml"
+    }
+]

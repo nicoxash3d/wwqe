@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#FF4081</color>
+    <color name="blue">#0000FF</color>
+    <color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="primary_light">#C5CAE9</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <string name="app_name">Habit Tracker</string>
+    <string name="gcm_defaultSenderId" translatable="false">451612863477</string>
+    <string name="google_api_key" translatable="false">AIzaSyB6lJc_meHQEBVL26Zudfx0mr5PK3W3Agc</string>
+    <string name="google_app_id" translatable="false">1:451612863477:android:8c683462569e92142a8ebc</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB6lJc_meHQEBVL26Zudfx0mr5PK3W3Agc</string>
+    <string name="google_storage_bucket" translatable="false">tracker-e01f3.firebasestorage.app</string>
+    <string name="project_id" translatable="false">tracker-e01f3</string>
+    <style name="AppTheme" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+    </style>
+</resources>

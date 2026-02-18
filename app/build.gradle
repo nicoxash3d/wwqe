@@ -21,6 +21,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('../keystore.jks')
+            storePassword 'password'
+            keyAlias 'mykey'
+            keyPassword 'password'
+        }
     }
     buildTypes {
         debug {
@@ -29,6 +35,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

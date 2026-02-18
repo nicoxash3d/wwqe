@@ -31,7 +31,11 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
         setContentView(R.layout.activity_main);
 
         // Firebase initialize
-        com.google.firebase.FirebaseApp.initializeApp(this);
+        try {
+            com.google.firebase.FirebaseApp.initializeApp(this);
+        } catch (Exception e) {
+            Toast.makeText(this, "Firebase init error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -83,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
         habit.put("points", 0);
         habit.put("lastCompleted", null);
 
-        db.collection("users").document(mAuth.getCurrentUser().getUid()).collection("habits").add(habit);
-        loadHabits();
+        db.collection("users").document(mAuth.getCurrentUser().getUid()).collection("habits").add(habit)
+                .addOnSuccessListener(documentReference -> loadHabits());
     }
 
     private void loadHabits() {
@@ -101,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
                             habits.add(new Habit(id, name, streak, points));
                         }
                         adapter.updateHabits(habits);
+                    } else {
+                        Toast.makeText(this, "Load failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -120,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Habit completed! +10 points", Toast.LENGTH_SHORT).show();
                     loadHabits();
-                });
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }
