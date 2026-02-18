@@ -39,6 +39,14 @@
             android:exported="true" >
         </activity>
         <activity
+            android:name="com.wwqe.habits.FriendsActivity"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.wwqe.habits.LeaderboardActivity"
+            android:exported="true" >
+        </activity>
+        <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"
             android:excludeFromRecents="true"
             android:exported="true"

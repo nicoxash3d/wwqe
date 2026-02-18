@@ -1,5 +1,13 @@
 [
     {
+        "merged": "com.wwqe.habits.app-merged_res-37:/layout_activity_leaderboard.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/layout/activity_leaderboard.xml"
+    },
+    {
+        "merged": "com.wwqe.habits.app-merged_res-37:/layout_activity_friends.xml.flat",
+        "source": "com.wwqe.habits.app-main-39:/layout/activity_friends.xml"
+    },
+    {
         "merged": "com.wwqe.habits.app-merged_res-37:/layout_activity_main.xml.flat",
         "source": "com.wwqe.habits.app-main-39:/layout/activity_main.xml"
     },

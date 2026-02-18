@@ -1,12 +1,20 @@
 R_DEF: Internal format may change without notice
 local
 color blue
+id addFriendButton
 id addHabitButton
 id emailEdit
+id friendEmailEdit
+id friendsButton
+id friendsLayout
 id habitsLayout
+id leaderboardButton
+id leaderboardLayout
 id loginButton
 id passwordEdit
 id registerButton
+layout activity_friends
+layout activity_leaderboard
 layout activity_login
 layout activity_main
 string app_name

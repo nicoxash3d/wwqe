@@ -7,9 +7,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private EditText emailEdit, passwordEdit;
     private Button loginButton, registerButton;
 
@@ -19,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         emailEdit = findViewById(R.id.emailEdit);
         passwordEdit = findViewById(R.id.passwordEdit);
@@ -51,6 +56,10 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        // Save email to Firestore
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("email", email);
+                        db.collection("users").document(mAuth.getCurrentUser().getUid()).set(user);
                         Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show();

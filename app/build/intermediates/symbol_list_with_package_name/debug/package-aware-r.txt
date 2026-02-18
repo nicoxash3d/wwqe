@@ -2533,6 +2533,7 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id addFriendButton
 id addHabitButton
 id adjust_height
 id adjust_width
@@ -2654,6 +2655,9 @@ id flip
 id floating
 id forever
 id fragment_container_view_tag
+id friendEmailEdit
+id friendsButton
+id friendsLayout
 id fullscreen_header
 id ghost_view
 id ghost_view_holder
@@ -2685,6 +2689,8 @@ id jumpToEnd
 id jumpToStart
 id labeled
 id layout
+id leaderboardButton
+id leaderboardLayout
 id left
 id leftToRight
 id light
@@ -3011,6 +3017,8 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_friends
+layout activity_leaderboard
 layout activity_login
 layout activity_main
 layout browser_actions_context_menu_page
