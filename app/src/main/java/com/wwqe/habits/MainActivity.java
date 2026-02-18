@@ -30,9 +30,13 @@ public class MainActivity extends AppCompatActivity implements HabitAdapter.OnHa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Firebase initialize - otomatik, manuel gerek yok
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        try {
+            mAuth = FirebaseAuth.getInstance();
+            db = FirebaseFirestore.getInstance();
+        } catch (Exception e) {
+            Toast.makeText(this, "Firebase init error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return;
+        }
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
